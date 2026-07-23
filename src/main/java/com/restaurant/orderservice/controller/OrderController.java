@@ -14,12 +14,14 @@ public class OrderController {
     private final OrderService orderService;
 
     public OrderController(OrderService orderService) {
+
         this.orderService = orderService;
     }
 
-    @PostMapping
-    public OrderEntity createOrder(@RequestBody OrderEntity order) {
-        return orderService.createOrder(order);
+    @PostMapping("/{menuItemId}")
+    public OrderEntity createOrder(@RequestBody OrderEntity order,  @PathVariable Long menuItemId) {
+
+        return orderService.createOrder(order,  menuItemId);
     }
 
     @GetMapping
