@@ -3,12 +3,13 @@ package com.restaurant.orderservice.controller;
 
 import com.restaurant.orderservice.model.OrderEntity;
 import com.restaurant.orderservice.service.OrderService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -19,14 +20,15 @@ public class OrderController {
     }
 
     @PostMapping("/{menuItemId}")
-    public OrderEntity createOrder(@RequestBody OrderEntity order,  @PathVariable Long menuItemId) {
+    public ResponseEntity<OrderEntity> createOrder(@RequestBody OrderEntity order, @PathVariable Long menuItemId) {
 
-        return orderService.createOrder(order,  menuItemId);
+        return ResponseEntity.ok(orderService.createOrder(order,  menuItemId));
     }
 
     @GetMapping
-    public List<OrderEntity> getAllOrders() {
-        return orderService.getAllOrders();
+    public ResponseEntity<List<OrderEntity>> getAllOrders() {
+
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 
 }
