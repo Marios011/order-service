@@ -33,7 +33,11 @@ public class OrderService {
             MenuItemDto menuItem = restTemplate.getForObject(url, MenuItemDto.class);
 
             if (menuItem != null && menuItem.isAvailable()) {
-                return orderRepository.save(order);
+
+                OrderEntity savedOrder=orderRepository.save(order);
+                System.out.println("Order saved");
+                rabbitTemplate.convertAndSend("order_exchange","order_routing_key", savedOrder);
+                return savedOrder;
             }
             throw new RuntimeException("Menu item not found or not available");
 
