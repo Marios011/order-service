@@ -16,6 +16,10 @@ public class OrderEntity {
 
     private String status;
 
+    private Double total;
+
+    private String paymentMethod
+
     public OrderEntity() {
     }
 
@@ -41,5 +45,21 @@ public class OrderEntity {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }

@@ -19,16 +19,30 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/{menuItemId}")
-    public ResponseEntity<OrderEntity> createOrder(@RequestBody OrderEntity order, @PathVariable Long menuItemId) {
+    @PostMapping
+    public ResponseEntity<OrderEntity> createOrder(@RequestBody CreateOrderRequest request) {
 
-        return ResponseEntity.ok(orderService.createOrder(order,  menuItemId));
+        return ResponseEntity.ok(orderService.createOrder(request));
     }
 
     @GetMapping
     public ResponseEntity<List<OrderEntity>> getAllOrders() {
 
         return ResponseEntity.ok(orderService.getAllOrders());
+    }
+
+    @PutMapping("/{id}/pay")
+    public ResponseEntity<OrderEntity> payOrder(@PathVariable Long id, @RequestBody PaymentRequest request) {
+
+        return ResponseEntity.ok(orderService.payOrder(id,request));
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
+
+        orderService.deleteOrder(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
