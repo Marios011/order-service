@@ -18,7 +18,10 @@ public class OrderEntity {
 
     private Double total;
 
-    private String paymentMethod
+    private String paymentMethod;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> items=new ArrayList<>();
 
     public OrderEntity() {
     }
@@ -61,5 +64,13 @@ public class OrderEntity {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public List<OrderItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<OrderItem> items){
+        this.items=items;
     }
 }
