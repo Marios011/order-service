@@ -6,10 +6,11 @@ public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String menuItemId;
+    private Long menuItemId;
     private Integer quantity;
     private String note;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name="order_id")
 
