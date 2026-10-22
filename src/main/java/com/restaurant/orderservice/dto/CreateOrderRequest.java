@@ -7,6 +7,7 @@ public class CreateOrderRequest {
     private String status;
     private Double total;
     private String paymentMethod;
+    private List<CreateOrderItemRequest> items;
 
     public CreateOrderRequest() {
     }
@@ -41,5 +42,13 @@ public class CreateOrderRequest {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public List<CreateOrderItemRequest> getItems() {
+        return items;
+    }
+
+    public void setItems(List<CreateOrderItemRequest> items) {
+        this.items = items;
     }
 }

@@ -5,6 +5,8 @@ import com.restaurant.orderservice.model.OrderEntity;
 import com.restaurant.orderservice.service.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.restaurant.orderservice.dto.CreateOrderRequest;
+import com.restaurant.orderservice.dto.PaymentRequest;
 
 import java.util.List;
 
