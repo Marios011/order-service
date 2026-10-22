@@ -1,4 +1,7 @@
+package com.restaurant.orderservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class OrderItem {

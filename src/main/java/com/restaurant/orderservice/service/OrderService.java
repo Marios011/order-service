@@ -52,4 +52,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public void deleteOrder(Long id){
+        orderRepository.deleteById(id);
+    }
+
 }
