@@ -36,7 +36,7 @@ public class OrderController {
     @PutMapping("/{id}/pay")
     public ResponseEntity<OrderEntity> payOrder(@PathVariable Long id, @RequestBody PaymentRequest request) {
 
-        return ResponseEntity.ok(orderService.payOrder(id,request));
+        return ResponseEntity.ok(orderService.payOrder(id,request.getPaymentMethod()));
     }
 
 

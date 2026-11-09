@@ -1,6 +1,7 @@
 
 package com.restaurant.orderservice.dto;
 
+import java.util.List;
 
 public class CreateOrderRequest {
     private Long tableId;

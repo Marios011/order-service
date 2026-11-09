@@ -31,8 +31,8 @@ public class OrderService {
 
     public OrderEntity createOrder(CreateOrderRequest request) {
 
-        if(request.getItems()==null || request.getItems().isEmpty()){
-            throw new IllegalArgumentException("Order must contain at least one item");
+        if (request.getItems() == null || request.getItems().isEmpty()) {
+            throw new IllegalArgumentException("Order must contain at least one item.");
         }
 
         OrderEntity order = new OrderEntity();
@@ -47,42 +47,50 @@ public class OrderService {
             if (requestedItem.getMenuItemId() == null
                     || requestedItem.getQuantity() == null
                     || requestedItem.getQuantity() <= 0) {
-                throw new IllegalArgumentException("Each item needs a product ID and positive quantity.");
+                throw new IllegalArgumentException(
+                        "Each item needs a product ID and positive quantity.");
             }
 
             String url = "http://menu-service:8080/api/products/"
                     + requestedItem.getMenuItemId();
 
+            MenuItemDto menuItem;
             try {
-                MenuItemDto menuItem = restTemplate.getForObject(url, MenuItemDto.class);
-
+                menuItem = restTemplate.getForObject(url, MenuItemDto.class);
             } catch (HttpClientErrorException.NotFound e) {
-                throw new RuntimeException("Product not found with id: " + menuItemId);
+                throw new RuntimeException(
+                        "Product not found with id: " + requestedItem.getMenuItemId(), e);
             } catch (Exception e) {
-                throw new RuntimeException("Error communicating with menu service: " + e.getMessage());
+                throw new RuntimeException(
+                        "Error communicating with menu service: " + e.getMessage(), e);
             }
 
             if (menuItem == null || !menuItem.isAvailable()) {
-                throw new RuntimeException("Menu item not found or not available");
+                throw new RuntimeException(
+                        "Menu item not found or not available: "
+                                + requestedItem.getMenuItemId());
             }
-
             OrderItem item = new OrderItem();
-            item.setMenuItemId(product.getId());
+            item.setMenuItemId(menuItem.getId());
             item.setQuantity(requestedItem.getQuantity());
             item.setNote(requestedItem.getNote());
             item.setOrder(order);
 
-            items.add(item);
-            total += product.getPrice() * requestedItem.getQuantity();
-
+            orderItems.add(item);
+            total += menuItem.getPrice() * requestedItem.getQuantity();
         }
-        order.setItems(items);
+
+        order.setItems(orderItems);
         order.setTotal(total);
 
         OrderEntity savedOrder = orderRepository.save(order);
         rabbitTemplate.convertAndSend("order_exchange", "order_routing_key", savedOrder);
         return savedOrder;
+
     }
+
+
+
 
     public List<OrderEntity> getAllOrders() {
         return orderRepository.findAll();
@@ -98,8 +106,6 @@ public class OrderService {
         OrderEntity order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found with id: " + orderId));
 
-        // Here you can implement the payment logic based on the paymentMethod
-        // For simplicity, we will just set the status to "PAID" and save the order
 
         order.setStatus("PAID");
         order.setPaymentMethod(paymentMethod);
