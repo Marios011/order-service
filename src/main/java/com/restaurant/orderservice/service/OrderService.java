@@ -65,7 +65,7 @@ public class OrderService {
                         "Error communicating with menu service: " + e.getMessage(), e);
             }
 
-            if (menuItem == null || !menuItem.isAvailable()) {
+            if (menuItem == null ) {
                 throw new RuntimeException(
                         "Menu item not found or not available: "
                                 + requestedItem.getMenuItemId());
