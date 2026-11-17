@@ -9,8 +9,6 @@ public class MenuItemDto {
     private double price;
     private String category;
 
-    @JsonProperty("isAvailable")
-    private boolean isAvailable;
 
     public MenuItemDto(){}
 
@@ -54,15 +52,6 @@ public class MenuItemDto {
         this.category = category;
     }
 
-
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
 
 
 }
